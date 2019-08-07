@@ -36,7 +36,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Course.associate = (models) => {
-    Course.belongsTo(models.User);
+    Course.belongsTo(models.User, {
+      // Will save to database ok without this,
+      // but needed for retrieval of key
+      foreignKey: 'userId',
+    });
   };
 
   return Course;

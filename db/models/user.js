@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = (models) => {
-    User.hasMany(models.Course);
+    User.hasMany(models.Course, {
+      // Will save to database ok without this,
+      // but needed for retrieval of key
+      foreignKey: 'userId',
+    });
   };
 
   return User;

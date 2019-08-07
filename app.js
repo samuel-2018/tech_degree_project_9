@@ -8,6 +8,9 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
+// Request body JSON parsing
+app.use(express.json());
+
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
@@ -15,56 +18,33 @@ app.use(morgan('dev'));
 const { sequelize, models } = require('./db');
 // const { sequelize } = require('./db');
 
-// ****************************** */
-// TEMP, move to another location?
+// API routes
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const coursesRouter = require('./routes/courses');
 
-// // Imports Sequelize
-// const Sequelize = require('sequelize');
+app.use('/api', indexRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/courses', coursesRouter);
 
-// // Creates instance of Sequelize
-// const sequelize = new Sequelize({
-//   dialect: 'sqlite',
-//   storage: 'fsjstd-restapi.db',
+// // send 404 if no other route matched
+// app.use((req, res) => {
+//   res.status(404).json({
+//     message: 'Route Not Found',
+//   });
 // });
 
-// // Test connection
-// (async () => {
-//   try {
-//     await sequelize.authenticate();
-//     console.log('Connection successful!');
-//   } catch (error) {
-//     console.log('OOOOPS');
+// // setup a global error handler
+// app.use((err, req, res, next) => {
+//   if (enableGlobalErrorLogging) {
+//     console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
 //   }
-// })();
-// ************************* */
 
-// TODO setup your api routes here
-
-// setup a friendly greeting for the root route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to the REST API project!',
-  });
-});
-
-// send 404 if no other route matched
-app.use((req, res) => {
-  res.status(404).json({
-    message: 'Route Not Found',
-  });
-});
-
-// setup a global error handler
-app.use((err, req, res, next) => {
-  if (enableGlobalErrorLogging) {
-    console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
-  }
-
-  res.status(err.status || 500).json({
-    message: err.message,
-    error: {},
-  });
-});
+//   res.status(err.status || 500).json({
+//     message: err.message,
+//     error: {},
+//   });
+// });
 
 // set our port
 app.set('port', process.env.PORT || 5000);

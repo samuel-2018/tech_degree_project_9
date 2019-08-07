@@ -1,5 +1,3 @@
-'use strict';
-
 // load modules
 const express = require('express');
 const morgan = require('morgan');
@@ -12,6 +10,33 @@ const app = express();
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+
+// TEMP, move to routes?
+const { sequelize, models } = require('./db');
+// const { sequelize } = require('./db');
+
+// ****************************** */
+// TEMP, move to another location?
+
+// // Imports Sequelize
+// const Sequelize = require('sequelize');
+
+// // Creates instance of Sequelize
+// const sequelize = new Sequelize({
+//   dialect: 'sqlite',
+//   storage: 'fsjstd-restapi.db',
+// });
+
+// // Test connection
+// (async () => {
+//   try {
+//     await sequelize.authenticate();
+//     console.log('Connection successful!');
+//   } catch (error) {
+//     console.log('OOOOPS');
+//   }
+// })();
+// ************************* */
 
 // TODO setup your api routes here
 

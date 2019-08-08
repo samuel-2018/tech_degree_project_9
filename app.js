@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // TEMP, move to routes?
-const { sequelize, models } = require('./db');
+// const { sequelize, models } = require('./db');
 // const { sequelize } = require('./db');
 
 // API routes
@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     message: err.message,
-    error: {},
+    // error: {},
   });
 });
 

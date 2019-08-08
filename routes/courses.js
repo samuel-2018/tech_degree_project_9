@@ -15,12 +15,47 @@ const { Op } = sequelize;
 // ========================================
 //  HELPER FUNCTIONS
 // ========================================
+
+// Authenticate user
 const authenticateUser = require('../helpers/authenticateUser');
 
 // Error: Course not found
 const courseNotFound = new Error('Course not found.');
 courseNotFound.status = 404;
 
+// Error: Forbidden
+const forbidden = new Error('Forbidden.');
+forbidden.status = 403;
+
+// Authenticate access
+const authenticateAccess = async (req, res, next) => {
+  try {
+    // Get course
+    // IMPORTANT: Checks 'id' in params NOT 'id' in client JSON.
+    const course = await Course.findByPk(req.params.id);
+
+    // if there is this course
+    if (course) {
+      // Get current authenticated user
+      const user = await req.currentUser.dataValues.id;
+
+      // Get course owner
+      const courseOwner = await course.dataValues.userId;
+
+      // Is this the owner of the course?
+      if (courseOwner === user) {
+        // Owner
+        return next();
+      }
+      // Not owner
+      return next(forbidden);
+    }
+    return next(courseNotFound);
+  } catch (error) {
+    // Handles Sequelize errors
+    return next(error);
+  }
+};
 // ========================================
 // ROUTES
 // ========================================
@@ -77,10 +112,11 @@ router
     }
   })
   // UPDATE course
-  .put(authenticateUser, async (req, res, next) => {
+  .put(authenticateUser, authenticateAccess, async (req, res, next) => {
     try {
       // course
       const course = await Course.findByPk(req.params.id);
+
       // if there is this course
       if (course) {
         // IMPORTANT: Sequalize 'update' doesn't reliably validate.
@@ -100,19 +136,20 @@ router
 
         // Update
         await course.update(req.body);
+
+        // Success
+        res.status(204).end();
       } else {
         // no such course
         next(courseNotFound);
       }
-      // Success
-      res.status(204).end();
     } catch (error) {
       // res.status(error);
       next(error);
     }
   })
   // DELETE course
-  .delete(authenticateUser, async (req, res, next) => {
+  .delete(authenticateUser, authenticateAccess, async (req, res, next) => {
     try {
       // course
       const course = await Course.findByPk(req.params.id);

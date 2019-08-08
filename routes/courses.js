@@ -7,10 +7,18 @@ const router = express.Router();
 // Database access
 const { sequelize, models } = require('../db');
 
-const { Course } = models;
+const { Course, User } = models;
 
 // Sequelize operators
 const { Op } = sequelize;
+
+// ========================================
+//  HELPER FUNCTIONS
+// ========================================
+const authenticateUser = require('../helpers/authenticateUser');
+// ========================================
+// ROUTES
+// ========================================
 
 // ROUTE: api/courses
 router
@@ -28,7 +36,7 @@ router
     }
   })
   // Create a course
-  .post(async (req, res, next) => {
+  .post(authenticateUser, async (req, res, next) => {
     try {
       // Creates and saves new course
       const course = await Course.create(req.body);
@@ -59,7 +67,7 @@ router
       res.send(error);
     }
   })
-  .put(async (req, res, next) => {
+  .put(authenticateUser, async (req, res, next) => {
     try {
       // course
       const course = await Course.findByPk(req.params.id);
@@ -77,7 +85,7 @@ router
       res.status(error);
     }
   })
-  .delete(async (req, res, next) => {
+  .delete(authenticateUser, async (req, res, next) => {
     try {
       // course
       const course = await Course.findByPk(req.params.id);
@@ -92,7 +100,7 @@ router
       // Success
       res.status(204).end();
     } catch (error) {
-      res.status(error);
+      // res.status(error);
     }
   });
 

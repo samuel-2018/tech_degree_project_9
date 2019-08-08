@@ -17,6 +17,7 @@ const { Op } = sequelize;
 //  HELPER FUNCTIONS
 // ========================================
 const authenticateUser = require('../helpers/authenticateUser');
+
 // ========================================
 // ROUTES
 // ========================================
@@ -36,6 +37,12 @@ router
       // Builds new user
       const newUser = await User.build(req.body);
 
+      // Validation needs to be called manually,
+      // because it is not automatically run on 'build.'
+      // And the password field MUST be validated before
+      // bcryptjs is run.
+      await newUser.validate();
+
       // Hashes password
       newUser.password = await bcryptjs.hashSync(newUser.password);
 
@@ -47,7 +54,8 @@ router
       });
       res.end();
     } catch (error) {
-      res.send(error);
+      // res.send(error);
+      next(error);
     }
   });
 

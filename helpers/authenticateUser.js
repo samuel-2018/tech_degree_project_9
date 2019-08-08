@@ -10,7 +10,8 @@ const { sequelize, models } = require('../db');
 
 const { User } = models;
 
-const error401 = new Error();
+// Error: Authentication Failed
+const error401 = new Error('Authentication Failed.');
 error401.status = 401;
 
 // Note: Must use async/await.
@@ -37,16 +38,16 @@ const authenticateUser = async (req, res, next) => {
           req.currentUser = user;
           next();
         } else {
-          console.log(authenticated);
-
-          return res.status(401);
+          // return res.status(401);
+          return next(error401);
         }
       } else {
-        return res.status(401);
+        // return res.status(401);
+        return next(error401);
       }
     } catch (error) {
-      console.log('ERROR CAUGHT', error);
-      return res.send(error);
+      // return res.send(error);
+      return next(error);
     }
   } else {
     return next(error401);

@@ -4,12 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           notEmpty: { msg: 'Title is required.' },
         },
       },
       description: {
         type: DataTypes.TEXT,
+        allowNull: false,
         validate: {
           notEmpty: { msg: 'Description is required.' },
         },
@@ -40,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
       // Will save to database ok without this,
       // but needed for retrieval of key
       foreignKey: 'userId',
+      // If client doesn't supply a userId, API will respond with
+      // "SQLITE_CONSTRAINT: FOREIGN KEY constraint failed"
     });
   };
 

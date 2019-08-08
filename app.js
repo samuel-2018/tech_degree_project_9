@@ -27,24 +27,24 @@ app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/courses', coursesRouter);
 
-// // send 404 if no other route matched
-// app.use((req, res) => {
-//   res.status(404).json({
-//     message: 'Route Not Found',
-//   });
-// });
+// send 404 if no other route matched
+app.use((req, res) => {
+  res.status(404).json({
+    message: 'Route Not Found',
+  });
+});
 
-// // setup a global error handler
-// app.use((err, req, res, next) => {
-//   if (enableGlobalErrorLogging) {
-//     console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
-//   }
+// setup a global error handler
+app.use((err, req, res, next) => {
+  if (enableGlobalErrorLogging) {
+    console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
+  }
 
-//   res.status(err.status || 500).json({
-//     message: err.message,
-//     error: {},
-//   });
-// });
+  res.status(err.status || 500).json({
+    message: err.message,
+    error: {},
+  });
+});
 
 // set our port
 app.set('port', process.env.PORT || 5000);

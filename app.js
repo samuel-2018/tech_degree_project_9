@@ -8,15 +8,11 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
-// Request body JSON parsing
+// request body JSON parsing
 app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
-
-// TEMP, move to routes?
-// const { sequelize, models } = require('./db');
-// const { sequelize } = require('./db');
 
 // API routes
 const indexRouter = require('./routes/index');

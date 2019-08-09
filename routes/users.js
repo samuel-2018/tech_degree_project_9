@@ -5,6 +5,9 @@ const express = require('express');
 
 const router = express.Router();
 
+// Sanitization middleware
+const { sanitizeBody } = require('express-validator');
+
 // Database access
 const { sequelize, models } = require('../db');
 
@@ -16,11 +19,20 @@ const { Op } = sequelize;
 // ========================================
 //  HELPER FUNCTIONS
 // ========================================
+
 const authenticateUser = require('../helpers/authenticateUser');
 
 // ========================================
 // ROUTES
 // ========================================
+
+// Sanitize user input (except 'password')
+// (Will mutate data)
+router.use([
+  sanitizeBody(['firstName', 'lastName', 'emailAddress'])
+    .trim()
+    .escape(),
+]);
 
 router
   .route('/')
@@ -50,11 +62,21 @@ router
       await newUser.save(req.body);
 
       res.writeHead(201, {
+        // BUG? '/' is the project requirement... but '/api' would be more useful
+        // https://app.slack.com/client/TBPQFGEAH/CBPRYGLSZ/thread/CBPRYGLSZ-1563967481.032400
         Location: '/',
       });
       res.end();
     } catch (error) {
-      // res.send(error);
+      // Catches validation errors sent from Sequelize
+      if (
+        error.name === 'SequelizeValidationError'
+        || error.name === 'SequelizeUniqueConstraintError'
+      ) {
+        // Bad Request
+        // msg assigned by Sequelize
+        error.status = 400;
+      }
       next(error);
     }
   });

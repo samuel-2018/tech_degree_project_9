@@ -68,7 +68,9 @@ router
     //
     try {
       // All courses, data includes userId
-      const result = await Course.findAll();
+      const result = await Course.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      });
 
       res.status(200).json(result);
     } catch (error) {
@@ -103,7 +105,9 @@ router
   .get(async (req, res, next) => {
     try {
       // course, data includes userId
-      const result = await Course.findByPk(req.params.id);
+      const result = await Course.findByPk(req.params.id, {
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      });
 
       res.status(200).json(result);
     } catch (error) {

@@ -24,15 +24,28 @@ const authenticateUser = async (req, res, next) => {
   // Got credentials?
   if (credentials) {
     try {
-      // User
-      const user = await User.findOne({ where: { emailAddress: credentials.name } });
+      // Get hashed password
+      const passwordHash = await User.findOne({
+        where: { emailAddress: credentials.name },
+        attributes: ['password'],
+      });
 
-      // Got user?
-      if (user) {
-        const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
+      // Got passwordHash?
+      if (passwordHash) {
+        const authenticated = bcryptjs.compareSync(credentials.pass, passwordHash.password);
 
         // Got authenticated?
         if (authenticated) {
+          // The database is queried a second time
+          // to get user data without the password.
+          // Why? 'await delete user.password' did not work.
+
+          // get user
+          const user = await User.findOne({
+            where: { emailAddress: credentials.name },
+            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+          });
+
           // Stores the authenticated user on req.
           // All middleware will have access to it.
           req.currentUser = user;

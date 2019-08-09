@@ -39,7 +39,7 @@ npm start
 
 To test the Express server, browse to the URL [http://localhost:5000/](http://localhost:5000/).
 
-You can also use [Postman](https://www.getpostman.com/) for testing, using the file `RESTAPI.postman_collection.json`.
+You can also use [Postman](https://www.getpostman.com/) for testing, using the file `RESTAPI.postman_collection.json`. The database can be viewed using [DB Browser for SQLite](https://sqlitebrowser.org/).
 
 ## API Reference (HTTP METHOD Route)
 
@@ -49,7 +49,7 @@ Note: All course ids must be supplied via the URL parameter.
 
 `GET /api/users`
 
-### Creates a user account
+### Create a user account
 
 `POST /api/users`
 

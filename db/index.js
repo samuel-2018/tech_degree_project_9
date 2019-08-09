@@ -17,7 +17,7 @@ const sequelize = new Sequelize({
     await sequelize.authenticate();
     console.log('Connection successful!');
   } catch (error) {
-    console.log('OOOOPS');
+    console.log('Connection failed.');
   }
 })();
 
@@ -25,12 +25,10 @@ const models = {};
 
 // Boilerplate code adapted from express generator AND TreeHouse example 'data relationships'
 // Import models
-fs.readdirSync(path.join(__dirname, 'models'))
-  // .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
-  .forEach((file) => {
-    const model = sequelize.import(path.join(__dirname, 'models', file));
-    models[model.name] = model;
-  });
+fs.readdirSync(path.join(__dirname, 'models')).forEach((file) => {
+  const model = sequelize.import(path.join(__dirname, 'models', file));
+  models[model.name] = model;
+});
 // Create associations
 Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {

@@ -2,11 +2,11 @@
 const auth = require('basic-auth');
 
 // Enables hashing of passwords
-// ( for comparison against stored hashed password)
+// (For comparison against stored hashed password)
 const bcryptjs = require('bcryptjs');
 
 // Database access
-const { sequelize, models } = require('../db');
+const { models } = require('../db');
 
 const { User } = models;
 
@@ -40,7 +40,7 @@ const authenticateUser = async (req, res, next) => {
           // to get user data without the password.
           // Why? 'await delete user.password' did not work.
 
-          // get user
+          // Get user
           const user = await User.findOne({
             where: { emailAddress: credentials.name },
             attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
@@ -51,15 +51,12 @@ const authenticateUser = async (req, res, next) => {
           req.currentUser = user;
           next();
         } else {
-          // return res.status(401);
           return next(error401);
         }
       } else {
-        // return res.status(401);
         return next(error401);
       }
     } catch (error) {
-      // return res.send(error);
       return next(error);
     }
   } else {

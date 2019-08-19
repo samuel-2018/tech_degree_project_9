@@ -48,6 +48,7 @@ Note: All course ids must be supplied via the URL parameter.
 ### Get currently authenticated user
 #### HTTP METHOD Route
 `GET /api/users`
+
 ---
 ### Create a user account
 #### HTTP METHOD Route
@@ -61,14 +62,17 @@ Note: All course ids must be supplied via the URL parameter.
     "password": "password"
 }
 ```
+
 ---
 ### Get all courses
 #### HTTP METHOD Route
 `GET /api/courses`
+
 ---
 ### Get one course
 #### HTTP METHOD Route
 `GET /api/courses/:id`
+
 ---
 ### Create a course
 #### HTTP METHOD Route
@@ -82,6 +86,7 @@ Note: All course ids must be supplied via the URL parameter.
     "materialsNeeded": “* Notebook computer running Mac OS X or Windows * Text editor”,
 }
 ```
+
 ---
 ### Update a course
 #### HTTP METHOD Route
@@ -96,6 +101,7 @@ Note: All course ids must be supplied via the URL parameter.
     "materialsNeeded": “* Notebook computer running Mac OS X or Windows * Text editor”,
 }
 ```
+
 ---
 ### Delete a course
 #### HTTP METHOD Route

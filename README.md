@@ -41,18 +41,18 @@ To test the Express server, browse to the URL [http://localhost:5000/](http://lo
 
 You can also use [Postman](https://www.getpostman.com/) for testing, using the file `RESTAPI.postman_collection.json`. The database can be viewed using [DB Browser for SQLite](https://sqlitebrowser.org/).
 
-## API Reference (HTTP METHOD Route)
+## API Reference
 
 Note: All course ids must be supplied via the URL parameter.
 
 ### Get currently authenticated user
-
+#### HTTP METHOD Route
 `GET /api/users`
-
+---
 ### Create a user account
-
+#### HTTP METHOD Route
 `POST /api/users`
-
+#### Request body
 ```
 {
     "firstName": "John",
@@ -61,19 +61,19 @@ Note: All course ids must be supplied via the URL parameter.
     "password": "password"
 }
 ```
-
+---
 ### Get all courses
-
+#### HTTP METHOD Route
 `GET /api/courses`
-
+---
 ### Get one course
-
+#### HTTP METHOD Route
 `GET /api/courses/:id`
-
+---
 ### Create a course
-
+#### HTTP METHOD Route
 `POST /api/courses`
-
+#### Request body
 ```
 {
     "title": "New Course",
@@ -82,11 +82,12 @@ Note: All course ids must be supplied via the URL parameter.
     "materialsNeeded": “* Notebook computer running Mac OS X or Windows * Text editor”,
 }
 ```
-
+---
 ### Update a course
-
+#### HTTP METHOD Route
 `PUT /api/courses/:id`
 
+#### Request body
 ```
 {
     "title": "New Course Updated4 Again Hello",
@@ -95,7 +96,7 @@ Note: All course ids must be supplied via the URL parameter.
     "materialsNeeded": “* Notebook computer running Mac OS X or Windows * Text editor”,
 }
 ```
-
+---
 ### Delete a course
-
+#### HTTP METHOD Route
 `DELETE /api/courses/:id`

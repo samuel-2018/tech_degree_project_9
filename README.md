@@ -43,7 +43,7 @@ You can also use [Postman](https://www.getpostman.com/) for testing, using the f
 
 ## API Reference
 
-Note: All course ids must be supplied via the URL parameter.
+Note: All course ids must be supplied via the route parameter.
 
 ### Get currently authenticated user
 #### HTTP METHOD Route
@@ -72,6 +72,18 @@ Note: All course ids must be supplied via the URL parameter.
 ### Get one course
 #### HTTP METHOD Route
 `GET /api/courses/:id`
+
+#### Response body
+```
+{
+    id: 1,
+    title: "Learn How to Program",
+    description: "In this course, you'll learn how to write code like a pro!",
+    estimatedTime: "6 hours",
+    materialsNeeded: "* Notebook computer running Mac OS X or Windows * Text editor",
+    userId: 2
+}
+```
 
 ---
 ### Create a course

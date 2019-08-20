@@ -48,6 +48,17 @@ Note: All course ids must be supplied via the route parameter.
 ### Get currently authenticated user
 #### HTTP METHOD Route
 `GET /api/users`
+#### Response body
+```
+{
+    "user": {
+        "id": 1,
+        "firstName": "Joe",
+        "lastName": "Smith",
+        "emailAddress": "joe@smith.com"
+    }
+}
+```
 
 ---
 ### Create a user account
